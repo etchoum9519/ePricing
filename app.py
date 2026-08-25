@@ -39,7 +39,7 @@ FREQ_MAP = {
 base = "/home"
 
 print("BASE:", base)
-print("ALLE:", os.listdir(os.path.join(base, "pfad1", "pfad2", "pfad3")))
+#print("ALLE:", os.listdir(os.path.join(base, "pfad1", "pfad2", "pfad3")))
 
 def normalize_dst_hourly(df, energy_type, tz="Europe/Berlin"):
     df = df.copy()
