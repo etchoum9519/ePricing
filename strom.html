@@ -1,0 +1,2822 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Pricing</title>
+<script>
+const PAGE_PASSWORD = "2026pricing";
+const SESSION_KEY = "_pricing_authenticated";
+
+if (!sessionStorage.getItem(SESSION_KEY)) {
+
+    const enteredPassword = prompt("Passwort eingeben:");
+
+    if (enteredPassword === PAGE_PASSWORD) {
+
+        sessionStorage.setItem(SESSION_KEY, "true");
+
+    } else {
+
+        document.documentElement.innerHTML = "";
+        alert("Falsches Passwort");
+        window.location.replace("about:blank");
+    }
+}
+</script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="https://i0.wp.com/stclairrealtors.com/wp-content/uploads/2024/05/gas-electric-stove-pros.webp?fit=2048%2C1365&ssl=1">
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+    font-family: "Accord Alternate Regular", "Accord Alternate", sans-serif;
+    font-weight: 500;
+    padding-top: 70px;   /* Höhe Navbar */
+    padding-bottom: 60px; /* Höhe Footer */
+    min-width: 1200px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 70px;
+    padding-bottom: 60px;
+    font-family: "Accord Alternate Regular", "Accord Alternate", sans-serif;
+    font-weight: 500;
+        }
+
+
+        #mainNavbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            background-color: #001489;
+        }
+        
+        #mainFooter {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            background-color: #001489;
+            border-top: 1px solid #ddd;
+        }
+        
+.strom-btn {
+    background-color: #6aaed6;   /* blue with warm tone */
+    border-color: #6aaed6;
+    color: #ffffff;
+}
+
+.strom-btn:hover {
+    background-color: #559dca;
+    border-color: #559dca;
+    color: #ffffff;
+}
+
+.gas-btn {
+    background-color: #6aaed6;   /* blue with warm tone */
+    border-color: #6aaed6;
+    color: #ffffff;
+}
+
+.gas-btn:hover {
+    background-color: #559dca;
+    border-color: #559dca;
+    color: #ffffff;
+}
+        
+.soft1-gas-btn {
+    background-color: #9ac7e4;
+    border-color: #9ac7e4;
+    color: #ffffff;
+}
+
+.soft1-gas-btn:hover {
+    background-color: #87b9da;
+    border-color: #87b9da;
+    color: #ffffff;
+}
+
+.soft2-gas-btn {
+    background-color: #ffffff;
+    border: 1px solid #001489;
+    color: #001489;
+}
+
+.soft2-gas-btn:hover {
+    background-color: #f3f6ff;
+    border-color: #001489;
+    color: #001489;
+}
+
+        .graph-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .graph-box {
+            height: 230px;
+            position: relative;
+        }
+                
+        .viz-box {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .graph-box canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        .energy-icon {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        
+        .energy-icon:hover {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .strom-active {
+            color: #fff !important;
+            background: #FFA300;
+        }
+        
+        .gas-active {
+            color: #fff !important;
+            background: #D7C826;
+        }
+        
+        .inactive {
+            opacity: 0.35;
+        }
+        .container-fluid-custom {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .viz-box {
+            height: 100%;
+            min-height: 100%;
+            border-left: 1px solid #ddd;
+            padding-left: 12px;
+        }
+
+        .kpi-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .kpi-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 1400px) {
+            .container-fluid-custom {
+                padding-left: 120px;
+                padding-right: 120px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .viz-box {
+                border-left: none;
+                padding-left: 0;
+                margin-top: 12px;
+            }
+
+            .container-fluid-custom {
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+        }
+#pricingButton:not(:disabled) {
+    background-color: #FFA300 !important;
+    border-color: #FFA300 !important;
+    color: #fff !important;
+}
+
+#pricingButton:not(:disabled):hover {
+    background-color: #FFA300 !important;
+    border-color: #FFA300 !important;
+}
+
+#pricingButton:disabled {
+    background-color: #aebed8 !important;
+    border-color: #aebed8 !important;
+    color: #ffffff !important;
+    cursor: not-allowed;
+    opacity: 1;
+    transition: all 0.2s ease;
+}
+
+#uploadButton {
+    background-color: #001489 !important;
+    border-color: #001489 !important;
+    color: #fff !important;
+}
+
+#uploadButton:hover {
+    background-color: #001489 !important;
+    border-color: #001489 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Accord Alternate", sans-serif;
+    font-weight: 700;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, span, a, label, small, strong, div {
+    color: #001489;
+}
+
+#pricingButton {
+    font-weight: 700;
+}
+
+#summe_lastgang {
+    font-weight: 700;
+}
+
+.kpi-box {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+    </style>
+
+    <script>
+
+function debugOutput(message) {
+
+    let box = document.getElementById("debugBox");
+
+    if (!box) {
+
+        box = document.createElement("pre");
+        box.id = "debugBox";
+
+        Object.assign(box.style, {
+            position: "fixed",
+            left: "10px",
+            bottom: "10px",
+            width: "700px",
+            height: "300px",
+            overflow: "auto",
+            background: "#000",
+            color: "#00ff00",
+            fontSize: "12px",
+            fontFamily: "Consolas, monospace",
+            padding: "10px",
+            zIndex: "999999",
+            whiteSpace: "pre-wrap",
+            border: "2px solid red"
+        });
+
+        document.body.appendChild(box);
+    }
+
+    box.textContent += message + "\n";
+    box.scrollTop = box.scrollHeight;
+}
+
+        const oldLog = console.log;
+
+console.log = function (...args) {
+
+    oldLog.apply(console, args);
+
+    debugOutput(
+        args.map(a =>
+            typeof a === "object"
+                ? JSON.stringify(a, null, 2)
+                : String(a)
+        ).join(" ")
+    );
+};
+
+window.onerror = function(message, source, line, col, error) {
+
+    debugOutput(
+        "❌ ERROR: " +
+        message +
+        "\nZeile: " +
+        line
+    );
+};
+
+window.onerror = function(message, source, line, col, error) {
+
+    debugOutput(
+        "❌ ERROR: " +
+        message +
+        "\nZeile: " +
+        line
+    );
+};
+        
+function isDateValue(value) {
+    if (value === null || value === undefined) return false;
+
+    if (
+        typeof value === "number" &&
+        value > 30000 &&
+        value < 60000
+    ) {
+        return true;
+    }
+
+    const str = String(value).trim();
+
+    return (
+        /^\d{2}\.\d{4}$/.test(str) ||                // MM.YYYY
+        /^\d{2}\.\d{2}\.\d{4}$/.test(str) ||
+        /^\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2}$/.test(str) ||
+        /^\d{4}-\d{2}-\d{2}$/.test(str) ||
+        /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}$/.test(str) ||
+        /^\d{2}\/\d{2}\/\d{4}$/.test(str)
+    );
+}
+
+function getGasYear(date) {
+    const shifted = new Date(date);
+    shifted.setHours(shifted.getHours());
+    return shifted.getFullYear();
+}
+        
+function parseGermanNumber(value) {
+
+    if (value === null || value === undefined) {
+        return NaN;
+    }
+
+    const str = String(value).trim();
+
+    // deutsches Format
+    if (str.includes(",")) {
+        return Number(
+            str
+                .replace(/\./g, "")
+                .replace(",", ".")
+        );
+    }
+
+    // Excel / JS Rohzahl
+    return Number(str);
+}
+        
+function validateRawInputStrict(text) {
+
+    const lines = text
+        .split("\n")
+        .map(l => l.trim())
+        .filter(Boolean);
+
+    if (lines.length === 0) {
+        return { ok: false, reason: "Leere Eingabe" };
+    }
+
+    for (const line of lines) {
+    
+        const parts = line.split(/[;\t]+/);
+    
+        if (parts.length < 2) {
+            continue; // zu wenig Spalten
+        }
+    
+        const last = parts[parts.length - 1];
+    
+        // 🔥 WICHTIG: Zeitstempel explizit ignorieren
+        if (isDateValue(parts[0])) {
+            const value = parseGermanNumber(last);
+    
+            if (!Number.isFinite(value)) {
+                const err = new Error(
+                    `Invalid numeric dataset → "${last}" ist keine gültige Zahl`
+                );
+                err.code = "INVALID_DATASET";
+                throw err;
+            }
+        }
+    }
+
+    return { ok: true };
+}
+        
+let appModalInstance = null;
+
+function showModal(title, message) {
+
+    const modalEl =
+        document.getElementById("appModal");
+
+    document.getElementById("appModalTitle").textContent =
+        title;
+
+    document.getElementById("appModalBody").textContent =
+        message;
+
+    appModalInstance =
+        bootstrap.Modal.getOrCreateInstance(modalEl);
+
+    if (modalEl.classList.contains("show")) {
+        return;
+    }
+
+    appModalInstance.show();
+}
+
+        document.addEventListener("DOMContentLoaded", function () {
+        
+            let headerWarningShown = false;
+            let uploadCompleted = false;
+            let lastgangLocked = false;
+            let uploadInProgress = false;
+            let periodMismatch = false
+            let pricingValidationError = false;
+            
+            const uploadButton = document.getElementById("uploadButton");
+            const clearFileButton =
+                document.getElementById("clearFileButton");
+            
+            function updatePricingButtonState() {
+            
+                const pricingButton =
+                    document.getElementById("pricingButton");
+            
+                pricingButton.disabled =
+                    pricingValidationError;
+            
+                if (pricingValidationError) {
+            
+                    pricingButton.classList.remove(
+                        "btn-primary"
+                    );
+            
+                    pricingButton.classList.add(
+                        "btn-secondary"
+                    );
+            
+                } else {
+            
+                    pricingButton.classList.remove(
+                        "btn-secondary"
+                    );
+            
+                    pricingButton.classList.add(
+                        "btn-primary"
+                    );
+                }
+            }
+            function setUploadLoading(isLoading) {
+                uploadInProgress = isLoading;
+            
+                if (isLoading) {
+                    uploadButton.disabled = true;
+                    uploadButton.innerHTML = `
+                        <span class="spinner-border spinner-border-sm me-1"></span>
+                        Lädt...
+                    `;
+                } else {
+                    uploadButton.disabled = false;
+                    uploadButton.innerHTML = `UPLOAD`;
+                }
+            }
+            function invalidateUploadState() {
+            
+                uploadCompleted = false;
+                lastgangLocked = false;
+            
+                pricingValidationError = false;
+                periodMismatch = false;
+            
+                const pricingButton =
+                    document.getElementById("pricingButton");
+            
+                pricingButton.textContent = "BEPREISEN";
+            
+                pricingButton.classList.remove(
+                    "btn-success",
+                    "btn-danger"
+                );
+            
+                pricingButton.classList.add(
+                    "btn-primary"
+                );
+            
+                updatePricingButtonState();
+            }
+            const rawInput = document.querySelector('textarea[name="raw_input"]');
+
+            function removeHeaderFromRawInput() {
+            
+                let lines = rawInput.value
+                    .split(/\r?\n/)
+                    .map(l => l.trim());
+            
+                while (lines.length && lines[0] === "") {
+                    lines.shift();
+                }
+            
+                if (!lines.length) return;
+            
+                const row0 = lines[0].split(/[;\t]+/);
+            
+                const candidate =
+                    row0.length > 1
+                        ? row0[1].trim()
+                        : row0[0].trim();
+            
+                const isHeader =
+                    isNaN(parseGermanNumber(candidate)) &&
+                    !isDateValue(candidate);
+            
+                if (isHeader) {
+            
+                    lines.shift();
+            
+                    rawInput.value = lines.join("\n");
+            
+                    if (!headerWarningShown) {
+            
+                        alert(
+                            "Spaltenname erkannt. Erste Zeile wurde automatisch entfernt."
+                        );
+            
+                        headerWarningShown = true;
+                    }
+                }
+            }
+            
+            rawInput.addEventListener("paste", function (e) {
+            
+                e.preventDefault();
+            
+                let text =
+                    (e.clipboardData || window.clipboardData)
+                    .getData("text");
+            
+                text = text.replace(/[\r\n]+$/g, "");
+            
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+            
+                this.value =
+                    this.value.substring(0, start) +
+                    text +
+                    this.value.substring(end);
+            
+                this.selectionStart =
+                    this.selectionEnd =
+                    start + text.length;
+            
+                removeHeaderFromRawInput();
+                
+                this.dispatchEvent(
+                    new Event("input", { bubbles: true })
+                );
+            });
+            rawInput.addEventListener("input", function () {
+            
+                invalidateUploadState();
+            
+                const fileUpload = document.getElementById("fileUpload");
+            
+                if (!rawInput.value.trim()) {
+            
+                    fileUpload.value = "";
+            
+                    topChart.data.labels = [];
+                    topChart.data.datasets[0].data = [];
+                    topChart.update();
+            
+                    bottomChart.data.labels = [];
+                    bottomChart.data.datasets[0].data = [];
+                    bottomChart.update();
+
+            
+                    const unit =
+                        document.querySelector('select[name="unit"]').value;
+                    
+                    const decimals = getSumDecimalsByUnit(unit);
+                    
+                    sumDisplay.textContent =
+                        (0).toLocaleString("de-DE", {
+                            minimumFractionDigits: decimals,
+                            maximumFractionDigits: decimals
+                        }) + " " + unit;
+                    sumInfoText.textContent =
+    "wird berechnet nach Upload-Bestätigung"; 
+                }
+            });
+            const sumDisplay = document.getElementById("sumDisplay");
+            const sumInfoText =
+                document.getElementById("sumInfoText");
+            const forwardInput =
+                document.querySelector(
+                    'input[name="forward_market_share"]'
+                );
+            const fileUpload = document.getElementById("fileUpload");
+            clearFileButton.addEventListener("click", function () {
+                fileUpload.value = "";
+            });
+            fileUpload.addEventListener("change", function () {
+                invalidateUploadState();
+                headerWarningShown = false;
+            });
+
+function calculateSum() {
+
+    const text = rawInput.value;
+
+    const lines = text
+        .split("\n")
+        .map(l => l.trim())
+        .filter(l => l.length > 0);
+
+    const values = [];
+
+    const forwardFactor =
+        parseFloat(
+            document.querySelector(
+                'input[name="forward_market_share"]'
+            ).value || 100
+        ) / 100;
+
+    const unit =
+        document.querySelector('select[name="unit"]').value;
+
+    const selectedYears =
+        Array.from(
+            document.querySelector('select[name="years"]').selectedOptions
+        ).map(o => Number(o.value));
+    
+    const yearCount =
+        Math.max(selectedYears.length, 1);
+    
+    const valueCount = values.length;
+    
+    let singleColumnGranularity = "1h";
+    
+    if (valueCount <= 12 * yearCount + 2) {
+    
+        singleColumnGranularity = "1M";
+    
+    } else if (valueCount <= 366 * yearCount + 2) {
+    
+        singleColumnGranularity = "1D";
+    
+    } else {
+    
+        singleColumnGranularity = "1h";
+    
+    }    
+
+    for (let i = 0; i < lines.length; i++) {
+    
+        const parts = lines[i].split(/[;\t]+/);
+    
+        // Nur Wert ohne Zeitstempel
+        if (parts.length === 1) {
+    
+            const value = parseGermanNumber(parts[0]);
+    
+            if (!isNaN(value)) {
+                values.push(value * forwardFactor);
+            }
+    
+            continue;
+        }
+    
+        // Datum + Wert
+        if (parts.length < 2) continue;
+    
+        if (i === 0) {
+    
+            const maybeNumber =
+                parseGermanNumber(parts[parts.length - 1]);
+    
+            if (isNaN(maybeNumber)) {
+                continue;
+            }
+        }
+    
+        const value =
+            parseGermanNumber(parts[parts.length - 1]);
+    
+        if (!isNaN(value)) {
+            values.push(value * forwardFactor);
+        }
+    }
+    
+    let result = 0;
+    
+    if (unit === "kWh" || unit === "MWh") {
+    
+        result = 0;
+    
+        for (let i = 0; i < values.length; i++) {
+    
+            const parts = lines[i].split(/[;\t]+/);
+    
+            const date = parseGermanDate(parts[0]);
+            
+            // Kein Zeitstempel -> Wert direkt als Energie übernehmen
+            if (!date) {
+            
+                if (unit === "kWh") {
+                    result += values[i] ;
+                } else {
+                    result += values[i];
+                }
+            
+                continue;
+            }
+    
+    
+            // Monatswerte sind bereits Energie
+            if (/^\d{2}\.\d{4}$/.test(parts[0])) {
+    
+                if (unit === "kWh") {
+                    result += values[i] ;
+                } else {
+                    result += values[i];
+                }
+    
+                continue;
+            }
+    
+    
+            // normale Energieeinheiten
+            if (unit === "kWh") {
+                result += values[i];
+            } else {
+                result += values[i];
+            }
+        }
+    
+    
+} else if (unit === "kW" || unit === "MW") {
+
+    const sorted = [...values].sort((a, b) => a - b);
+
+    const mid = Math.floor(sorted.length / 2);
+
+    result =
+        sorted.length % 2
+            ? sorted[mid]
+            : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+    if (unit === "kWh" || unit === "MWh") {
+
+        sumInfoText.textContent =
+            "Energie wurde aggregiert";
+    
+    } else if (unit === "kW" || unit === "MW") {
+    
+        sumInfoText.textContent =
+            "Tagesstundenanzahl und Zeitumstellungen wurden berücksichtigt";
+    }
+    const decimals = getSumDecimalsByUnit(unit);
+    
+    let display =
+        result.toLocaleString("de-DE", {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals
+        }) + " " + unit;
+        
+    if (unit === "kW" || unit === "MW") {
+    
+        let totalHours = 0;
+    
+        for (let i = 1; i < lines.length; i++) {
+    
+            const prevParts = lines[i - 1].split(/[;\t]+/);
+            const currParts = lines[i].split(/[;\t]+/);
+    
+            const d1 = parseGermanDate(prevParts[0]);
+            const d2 = parseGermanDate(currParts[0]);
+    
+            if (d1 && d2) {
+                totalHours += (d2 - d1) / 3600000;
+            }
+        }
+    
+        if (lines.length > 1) {
+const firstParts = lines[0].split(/[;\t]+/);
+const lastParts  = lines[lines.length - 1].split(/[;\t]+/);
+
+const start = parseGermanDate(firstParts[0]);
+const end   = parseGermanDate(lastParts[0]);
+
+let totalHours = 0;
+
+if (start && end && lines.length > 1) {
+
+    const secondParts = lines[1].split(/[;\t]+/);
+    const second = parseGermanDate(secondParts[0]);
+
+    // Länge eines Messintervalls (1 h, 24 h, Monat ...)
+    const intervalHours = (second - start) / 3600000;
+
+    // Zeitraum vom ersten bis letzten Zeitstempel
+    totalHours =
+        (end - start) / 3600000 + intervalHours;
+}
+        }
+    
+let energyMWh = 0;
+
+for (let i = 0; i < values.length; i++) {
+
+    const parts = lines[i].split(/[;\t]+/);
+
+    // Nur Werte ohne Zeitstempel
+    if (parts.length === 1) {
+    
+        if (unit === "kW") {
+            // Annahme: Stundenlastgang
+            energyMWh += values[i] / 1000;
+        } else if (unit === "MW") {
+            // Annahme: Stundenlastgang
+            energyMWh += values[i];
+        } else {
+            // kWh/MWh sind bereits Energie
+            energyMWh += values[i];
+        }
+    
+        continue;
+    }
+
+    const current = parseGermanDate(parts[0]);
+    
+    if (!current) {
+    
+        // Nur reine Monatsnamen (Aug, Sep, ...)
+        if (/^[A-Za-zÄÖÜäöü]{3,}$/.test(parts[0].trim())) {
+    
+            let intervalHours = 730;
+    
+            if (unit === "kW") {
+                energyMWh += values[i] * intervalHours / 1000;
+            } else if (unit === "MW") {
+                energyMWh += values[i] * intervalHours;
+            } else {
+                energyMWh += values[i];
+            }
+    
+            continue;
+        }
+    
+        // Alle anderen Datumsformate unverändert behandeln
+        continue;
+    }
+
+let intervalHours = 0;
+
+// Monatsprofil?
+if (/^\d{2}\.\d{4}$/.test(parts[0])) {
+
+    const month = current.getMonth();
+    const year = current.getFullYear();
+
+    const monthStart = new Date(year, month, 1);
+    const nextMonthStart = new Date(year, month + 1, 1);
+
+    intervalHours = (nextMonthStart - monthStart) / 3600000;
+
+} else if (!parts[0].includes(":")) {
+
+    // ===============================
+    // GAS TAGESLASTGANG
+    // Datum = Beginn Gastag 06:00
+    // Intervall ergibt sich aus nächstem Gastag
+    // ===============================
+
+    intervalHours = 24;
+
+    if (i < lines.length - 1) {
+
+        const nextParts = lines[i + 1].split(/[;\t]+/);
+        const nextDate = parseGermanDate(nextParts[0]);
+
+        if (nextDate) {
+
+            const currentGasDate = new Date(current);
+
+            // Stromtag beginnt um 00:00
+            currentGasDate.setHours(0,0,0,0);
+
+            const nextGasDate = new Date(nextDate);
+
+            nextGasDate.setHours(0,0,0,0);
+
+
+            intervalHours =
+                (nextGasDate - currentGasDate) / 3600000;
+
+
+            /*
+             Sicherheit:
+             Normaler Gastag       = 24
+             Sommerzeitumstellung  = 23
+             Winterzeitumstellung  = 25
+            */
+
+            if (
+                intervalHours !== 23 &&
+                intervalHours !== 24 &&
+                intervalHours !== 25
+            ) {
+                intervalHours = 24;
+            }
+        }
+
+    } else {
+
+        // letzter Wert bekommt Standardintervall
+        intervalHours = 24;
+    }
+
+
+} else {
+
+    // Stundenprofil
+    if (i < lines.length - 1) {
+
+        const nextParts = lines[i + 1].split(/[;\t]+/);
+        const next = parseGermanDate(nextParts[0]);
+
+        if (next) {
+            intervalHours = (next - current) / 3600000;
+        }
+
+    } else if (i > 0) {
+
+        const prevParts = lines[i - 1].split(/[;\t]+/);
+        const prev = parseGermanDate(prevParts[0]);
+
+        if (prev) {
+            intervalHours = (current - prev) / 3600000;
+        }
+    }
+}
+    // Leistung -> Energie
+    if (unit === "kW") {
+    
+        energyMWh += values[i] * intervalHours / 1000;
+    
+    } else if (unit === "MW") {
+    
+        // Stundenlastgang in MW: gleiche Energie wie bei Einheit MWh
+        energyMWh += values[i] * intervalHours;
+    
+    } else {
+    
+        // kWh / MWh sind bereits Energie
+        energyMWh += values[i];
+    }
+}
+
+const convertedToMWh = energyMWh;
+    
+const mwhDecimals = 3;
+
+if (unit === "kW") {
+
+    display =
+        convertedToMWh.toLocaleString("de-DE", {
+            minimumFractionDigits: mwhDecimals,
+            maximumFractionDigits: mwhDecimals
+        }) +
+        " MWh";
+
+} else if (unit === "MW") {
+
+    // Bei Stundenlastgang exakt dieselbe Summe wie MWh anzeigen
+    display =
+        convertedToMWh.toLocaleString("de-DE", {
+            minimumFractionDigits: mwhDecimals,
+            maximumFractionDigits: mwhDecimals
+        }) +
+        " MWh";
+
+} else if (unit === "kWh") {
+
+    display =
+        (result / 1000).toLocaleString("de-DE", {
+            minimumFractionDigits: mwhDecimals,
+            maximumFractionDigits: mwhDecimals
+        }) +
+        " MWh";
+
+} else if (unit === "MWh") {
+
+    display =
+        result.toLocaleString("de-DE", {
+            minimumFractionDigits: mwhDecimals,
+            maximumFractionDigits: mwhDecimals
+        }) +
+        " MWh";
+}
+    }
+        
+        sumDisplay.textContent = display;
+        
+    return result;
+}
+
+function getSumDecimalsByUnit(unit) {
+
+    if (unit === "MW" || unit === "MWh") {
+        return 3;
+    }
+
+    if (unit === "kW" || unit === "kWh") {
+        return 0;
+    }
+
+    return 2;
+}
+
+function roundValueByUnit(value, unit) {
+
+    const decimals = getSumDecimalsByUnit(unit);
+
+    const factor = Math.pow(10, decimals);
+
+    return Math.round(value * factor) / factor;
+}
+            
+            rawInput.addEventListener("keydown", function (e) {
+            
+                if (e.key === "Enter") {
+            
+                    e.preventDefault();
+            
+                    invalidateUploadState();
+            
+                    processLastgang();
+                }
+            
+            });
+
+
+
+function extractYearFromDate(value) {
+
+    if (!isDateValue(value)) {
+        return null;
+    }
+
+    // Excel-Dateumszahl
+    if (typeof value === "number") {
+
+        const excelEpoch =
+            new Date(
+                (value - 25569) * 86400 * 1000
+            );
+
+        return excelEpoch.getFullYear();
+    }
+
+    const str = String(value).trim();
+
+    const match =
+        str.match(/(20\d{2})/);
+
+    return match
+        ? parseInt(match[1])
+        : null;
+}
+
+function parseGermanDate(str) {
+
+    str = String(str).trim();
+
+    const monthly =
+        str.match(/^(\d{1,2})\.(\d{4})$/);
+
+    if (monthly) {
+        return new Date(
+            Number(monthly[2]),
+            Number(monthly[1]) - 1,
+            1
+        );
+    }
+
+    const monthlyName =
+        str.match(
+            /^(Jan|Feb|Mär|Mar|Apr|Mai|Jun|Jul|Aug|Sep|Sept|Okt|Oct|Nov|Dez|Dec)\.?\s*(\d{4})$/i
+        );
+    
+    if (monthlyName) {
+    
+        const months = {
+            jan:0,
+            feb:1,
+            mär:2,
+            mar:2,
+            apr:3,
+            mai:4,
+            jun:5,
+            jul:6,
+            aug:7,
+            sep:8,
+            sept:8,
+            okt:9,
+            oct:9,
+            nov:10,
+            dez:11,
+            dec:11
+        };
+    
+        return new Date(
+            Number(monthlyName[2]),
+            months[monthlyName[1].toLowerCase()],
+            1
+        );
+    }
+    
+    const monthName =
+        str.match(/^(Jan|Feb|Mär|Mar|Apr|Mai|Jun|Jul|Aug|Sep|Okt|Oct|Nov|Dez|Dec)\s+(\d{2})$/i);
+
+    if (monthName) {
+
+        const months = {
+            jan:0,
+            feb:1,
+            mär:2,
+            mar:2,
+            apr:3,
+            mai:4,
+            jun:5,
+            jul:6,
+            aug:7,
+            sep:8,
+            okt:9,
+            oct:9,
+            nov:10,
+            dez:11,
+            dec:11
+        };
+
+        return new Date(
+            2000 + Number(monthName[2]),
+            months[monthName[1].toLowerCase()],
+            1
+        );
+    }
+
+    const m = str.match(
+        /^(\d{2})\.(\d{2})\.(\d{4})(?:\s+(\d{2}):(\d{2}))?$/
+    );
+
+    if (!m) return null;
+
+    return new Date(
+        Number(m[3]),
+        Number(m[2]) - 1,
+        Number(m[1]),
+        Number(m[4] || 0),
+        Number(m[5] || 0)
+    );
+}
+            
+function isDstChangeDay(date) {
+
+    const month = date.getMonth() + 1;
+
+    // Zeitumstellung findet nur im März oder Oktober statt
+    if (month !== 3 && month !== 10) {
+        return false;
+    }
+
+    const d = new Date(date);
+
+    const offset0 = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0).getTimezoneOffset();
+    const offset23 = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23).getTimezoneOffset();
+
+    return offset0 !== offset23;
+}
+            
+function detectGranularity(rows) {
+
+
+
+    const diffs = [];
+
+    for (let i = 1; i < Math.min(rows.length, 20); i++) {
+
+        const row0 = Array.isArray(rows[i - 1])
+            ? rows[i - 1]
+            : String(rows[i - 1]).split(/[;\t]+/);
+        
+        const row1 = Array.isArray(rows[i])
+            ? rows[i]
+            : String(rows[i]).split(/[;\t]+/);
+        
+        const d0 = row0[0] instanceof Date
+            ? row0[0]
+            : parseGermanDate(String(row0[0]));
+        
+        const d1 = row1[0] instanceof Date
+            ? row1[0]
+            : parseGermanDate(String(row1[0]));
+
+        if (!d0 || !d1) continue;
+
+        diffs.push((d1 - d0) / 60000);
+    }
+
+    if (!diffs.length) {
+        return { type: "unknown", chartMode: "day" };
+    }
+
+    const median =
+        diffs.sort((a,b) => a-b)[Math.floor(diffs.length/2)];
+
+    if (Math.abs(median - 60) < 1) {
+        return { type: "1h", chartMode: "hour" };
+    }
+
+    if (Math.abs(median - 1440) < 5) {
+        return { type: "1D", chartMode: "day" };
+    }
+
+    const days = median / 1440;
+
+    if (days >= 28 && days <= 31.5) {
+        return { type: "1M", chartMode: "month" };
+    }
+
+    return { type: "unknown", chartMode: "day" };
+}
+      
+async function processLastgang() {
+    let validation;
+    
+    try {
+        validateRawInputStrict(rawInput.value);
+    } catch (err) {
+    
+        pricingValidationError = true;
+    
+        showModal(
+            "Hinweis",
+            err.message
+        );
+    
+        updatePricingButtonState();
+    
+        return; // STOPP → harte Blockade
+    }
+
+    const file = fileUpload.files[0];
+let forceGranularity = null;
+
+if (file?.name?.endsWith(".xlsx")) {
+    forceGranularity = "excel";
+}
+    // =========================
+    // DATEI EINLESEN
+    // =========================
+
+    if (file) {
+
+        try {
+
+            if (
+    file.name.endsWith(".csv") ||
+    file.name.endsWith(".txt")
+) {
+
+const text = await file.text();
+
+if (!text || text.trim().length === 0) {
+
+    alert("Datei ist leer.");
+    return;
+}
+
+// =========================
+// ZEILEN
+// =========================
+
+let lines =
+    text
+    .split(/\r?\n/)
+    .map(line => line.trim());
+
+// Headercheck robuster machen
+while (lines.length && lines[0] === "") {
+    lines.shift();
+}
+
+
+// =========================
+// HEADERCHECK (ROBUST: Spalte 2 als Referenz)
+// =========================
+
+const row0 = lines[0].split(/[;, \t]+/);
+
+// wir prüfen NICHT Spalte 0, sondern Spalte 1 (zweite Spalte)
+const candidate =
+    row0.length > 1 ? row0[1] : row0[0];
+
+const isHeader =
+    isNaN(parseGermanNumber(candidate)) &&
+    !isDateValue(candidate);
+
+if (isHeader) {
+
+    if (!headerWarningShown) {
+        alert("Spaltenname erkannt. Erste Zeile wird ignoriert.");
+        headerWarningShown = true;
+    }
+
+    lines = lines.slice(1);
+}
+
+// =========================
+// FINAL
+// =========================
+
+rawInput.value =
+    lines.join("\n");
+}
+
+// =========================
+// XLSX
+// =========================
+
+else if (
+    file.name.endsWith(".xlsx")
+) {
+
+    const arrayBuffer =
+        await file.arrayBuffer();
+
+    const workbook =
+        XLSX.read(arrayBuffer, {
+            cellDates: true
+        });
+
+    const firstSheet =
+        workbook.Sheets[
+            workbook.SheetNames[0]
+        ];
+
+    const sheetData =
+        XLSX.utils.sheet_to_json(
+            firstSheet,
+            {
+                header: 1,
+                raw: true,
+                defval: null
+            }
+        );
+
+// =========================
+// LEERE ZEILEN ENTFERNEN
+// =========================
+
+let rows =
+    sheetData.filter(
+        row => row.length > 0
+    );
+
+// =========================
+// HEADERCHECK
+// =========================
+
+if (rows.length > 0) {
+
+    // Spalte 2 statt Spalte 1 prüfen
+    const candidate =
+        rows[0].length > 1
+            ? String(rows[0][1]).trim()
+            : String(rows[0][0]).trim();
+
+    const isHeader =
+        isNaN(parseGermanNumber(candidate)) &&
+        !isDateValue(candidate);
+
+    if (isHeader) {
+
+        // =========================
+        // EINHEIT AUTOMATISCH ERKENNEN
+        // Erste Zeile, zweite Spalte
+        // =========================
+
+        let unitDetected = false;
+
+        if (rows[0].length > 1) {
+
+            const unitCell = String(rows[0][1]).trim().toLowerCase();
+
+            const unitSelect =
+                document.querySelector('select[name="unit"]');
+
+            if (unitCell === "kwh") {
+                unitSelect.value = "kWh";
+                unitDetected = true;
+            } else if (unitCell === "mwh") {
+                unitSelect.value = "MWh";
+                unitDetected = true;
+            } else if (unitCell === "kw") {
+                unitSelect.value = "kW";
+                unitDetected = true;
+            } else if (unitCell === "mw") {
+                unitSelect.value = "MW";
+                unitDetected = true;
+            }
+
+            if (!headerWarningShown) {
+
+                if (unitDetected) {
+                    alert(`Spaltenname erkannt. Einheit "${unitSelect.value}" wird automatisch gesetzt.`);
+                } else {
+                    alert("Spaltenname erkannt. Erste Zeile wird ignoriert.");
+                }
+
+                headerWarningShown = true;
+            }
+        }
+
+        rows = rows.slice(1);
+    }
+}
+
+// =========================
+// WERTE EXTRAHIEREN
+// =========================
+
+function normalizeMonthlyProfiles(text) {
+
+    // erkennt: "Jan 27 13,903 Feb 27 13,408 ..."
+    const regex = /([A-Za-zÄÖÜäöü]{3}\s?\d{2})\s+([\d.,]+)/g;
+
+    if (!regex.test(text)) {
+        return text;
+    }
+
+    const matches = [...text.matchAll(regex)];
+
+    if (matches.length === 0) {
+        return text;
+    }
+
+    return matches
+        .map(m => `${m[1]}\t${m[2]}`)
+        .join("\n");
+}
+
+function formatGermanValue(v, index = 0, mode = "hourly") {
+
+    if (v instanceof Date) {
+
+        const dd = String(v.getDate()).padStart(2, "0");
+        const mm = String(v.getMonth() + 1).padStart(2, "0");
+        const yyyy = v.getFullYear();
+
+        const hh = String(v.getHours()).padStart(2, "0");
+        const mi = String(v.getMinutes()).padStart(2, "0");
+
+        if (mode === "hourly") {
+            return `${dd}.${mm}.${yyyy} ${hh}:${mi}`;
+        }
+
+        if (mode === "daily") {
+            return `${dd}.${mm}.${yyyy}`;
+        }
+
+        if (mode === "monthly") {
+            return `${mm}.${yyyy}`;
+        }
+    }
+
+    if (typeof v === "number") {
+        return String(v).replace(".", ",");
+    }
+
+    return v ?? "";
+}
+
+// XLSX → täglicher Lastgang
+const rawLines = rows.map(row =>
+    row.map(v => {
+
+        if (v instanceof Date) {
+            return v; // 🔥 WICHTIG: Date behalten
+        }
+
+        if (typeof v === "number") {
+            return v;
+        }
+
+        return v;
+
+    })
+);
+
+const granularity = detectGranularity(rawLines);
+// RICHTIG
+const mode =
+    granularity.type === "1h"
+        ? "hourly"
+        : granularity.type === "1D"
+        ? "daily"
+        : "monthly";
+
+const lines = rows.map(row =>
+    row.map(v =>
+        formatGermanValue(v, 0, mode)
+    ).join("\t")
+);
+
+rawInput.value = lines.join("\n");
+}
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert("Fehler beim Lesen der Datei.");
+            return;
+        }
+    }
+
+    // =========================
+    // LEERER LASTGANG
+    // =========================
+
+    if (!rawInput.value.trim()) {
+
+        topChart.data.labels = [];
+        topChart.data.datasets[0].data = [];
+        topChart.update();
+
+        bottomChart.data.labels = [];
+        bottomChart.data.datasets[0].data = [];
+        bottomChart.update();
+        const unit =
+            document.querySelector('select[name="unit"]').value;
+        const decimals = getSumDecimalsByUnit(unit);
+        
+        sumDisplay.textContent =
+            (0).toLocaleString("de-DE", {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            }) + " " + unit;
+        sumInfoText.textContent =
+    "wird berechnet nach Upload-Bestätigung";
+        return;
+    }
+
+    // =========================
+    // SUMMENBERECHNUNG
+    // =========================
+
+    const sum = calculateSum();
+
+    console.log("SUMME LASTGANG:", sum);
+
+    // =========================
+    // BACKEND REQUEST
+    // =========================
+    const lines = rawInput.value
+        .split("\n")
+        .map(l => l.trim())
+        .filter(l => l.length > 0)
+        .map(l => {
+            const parts = l.split(/[;\t]+/);
+    
+            // 🔥 FIX: Excel Datum normalisieren
+            if (!isNaN(parts[0])) {
+                parts[0] = new Date((Number(parts[0]) - 25569) * 86400 * 1000);
+            }
+    
+            return parts.join("\t");
+        });
+
+console.log(detectGranularity(lines));        
+
+    const granularityInfo =
+        detectGranularity(lines);
+    
+    fetch("./print-sum", {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            energy_type: "strom",
+            pricing_name:
+                document.querySelector(
+                    'input[name="pricing_name"]'
+                ).value,
+
+            years:
+                Array.from(
+                    document.querySelector(
+                        'select[name="years"]'
+                    ).selectedOptions
+                ).map(o => o.value),
+
+            einheit:
+                document.querySelector(
+                    'select[name="unit"]'
+                ).value,
+
+            forward_market_share:
+                document.querySelector(
+                    'input[name="forward_market_share"]'
+                ).value,
+
+            raw_input: rawInput.value,
+
+            granularity: granularityInfo.type,
+            chart_mode: granularityInfo.chartMode,
+
+            sum: sum
+        })
+    })
+
+    .then(response => response.json())
+
+    .then(result => {
+    
+    
+        
+        if (result.validation_error) {
+    
+        topChart.data.labels = [];
+        topChart.data.datasets[0].data = [];
+        topChart.update();
+    
+        bottomChart.data.labels = [];
+        bottomChart.data.datasets[0].data = [];
+        bottomChart.update();
+    
+        sumDisplay.textContent = "0 MWh";
+    
+        showModal(
+            "Hinweis",
+            result.message
+        );
+    
+        pricingValidationError = true;
+        updatePricingButtonState();
+    
+        return;
+    }
+
+        // =====================================
+        // VALIDIERUNG
+        // =====================================
+        
+        pricingValidationError = false;
+        
+        if (
+            result.file_year_start !== null &&
+            result.file_year_end !== null &&
+            result.selected_year_start !== null &&
+            result.selected_year_end !== null
+        ) {
+        
+        const lastTimestamp = result.last_timestamp
+            ? new Date(result.last_timestamp)
+            : null;
+        
+        const expectedFileYearEnd = lastTimestamp
+            ? new Date(lastTimestamp.getTime() - 6 * 60 * 60 * 1000).getFullYear()
+            : result.file_year_end;
+        
+        const yearMismatch =
+            result.file_year_start !== result.selected_year_start ||
+            expectedFileYearEnd !== result.selected_year_end;
+        
+            if (yearMismatch) {
+                pricingValidationError = true;
+                periodMismatch = true;
+                showModal(
+                    "Hinweis",
+                    `Ausgewählter Lieferzeitraum (${result.selected_year_start}-${result.selected_year_end}) und Lastgangzeitraum (${result.file_year_start}-${expectedFileYearEnd}) stimmen nicht überein.`
+                );
+            }else {
+
+    periodMismatch = false;
+}
+        }
+
+const isHourlyGranularity =
+    granularityInfo.type === "1h";
+   
+// =====================================
+// ZEITSTEMPEL VALIDIERUNG
+// =====================================
+
+const validationMessages = [];
+
+if (result.first_timestamp) {
+
+    const firstDate =
+        new Date(result.first_timestamp);
+
+    const now =
+        new Date();
+
+    const nextMonthStart =
+        new Date(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            1,
+            0,
+            0,
+            0
+        );
+
+    if (firstDate < nextMonthStart) {
+
+        pricingValidationError = true;
+
+        validationMessages.push(
+            `Der Lastgang beginnt am ${firstDate.toLocaleString("de-DE")}. Zulässig ist frühestens der Monatsanfang des nächsten Monats (${nextMonthStart.toLocaleDateString("de-DE")}).`
+        );
+    }
+
+if (
+    isHourlyGranularity &&
+    lines[0].includes(":") &&   // ❗ nur echte Stundenprofile prüfen
+    (
+        firstDate.getHours() !== 0 ||
+        firstDate.getMinutes() !== 0
+    )
+) {
+
+    pricingValidationError = true;
+
+    validationMessages.push(
+        "Der erste Lastgangswert muss um 00:00 Uhr beginnen."
+    );
+}
+}
+
+if (isHourlyGranularity) {
+
+    for (let i = 1; i < lines.length; i++) {
+
+        const prev = parseGermanDate(lines[i - 1].split(/[;\t]+/)[0]);
+        const curr = parseGermanDate(lines[i].split(/[;\t]+/)[0]);
+
+        if (!prev || !curr) {
+            continue;
+        }
+
+        const diffMinutes = (curr - prev) / 60000;
+
+        const isDst =
+            isDstChangeDay(prev) ||
+            isDstChangeDay(curr);
+
+        const valid =
+            Math.abs(diffMinutes - 60) <= 2 ||
+            (
+                isDst &&
+                (
+                    Math.abs(diffMinutes) <= 2 ||          // doppelte 02:00
+                    Math.abs(diffMinutes - 120) <= 2       // 02:00 -> 03:00 nach Winterzeit
+                )
+            );
+
+        if (!valid) {
+
+            pricingValidationError = true;
+
+            validationMessages.push(
+                `Ungültiger Zeitabstand zwischen ${prev.toLocaleString("de-DE")} und ${curr.toLocaleString("de-DE")} (${diffMinutes} Minuten).`
+            );
+
+            break;
+        }
+    }
+}
+        
+if (result.last_timestamp) {
+
+    const lastDate =
+        new Date(result.last_timestamp);
+
+    if (
+        isHourlyGranularity &&
+        (
+            lastDate.getHours() !== 23 ||
+            lastDate.getMinutes() !== 0
+        )
+    ) {
+    
+        pricingValidationError = true;
+    
+        validationMessages.push(
+            "Der letzte Lastgangswert muss um 23:00 Uhr liegen."
+        );
+}
+}
+
+// =====================================
+// STUNDENABSTÄNDE PRÜFEN
+// =====================================
+
+if (isHourlyGranularity) {
+
+    for (let i = 1; i < lines.length; i++) {
+
+        const prev =
+            parseGermanDate(lines[i - 1].split(/[;\t]+/)[0]);
+
+        const curr =
+            parseGermanDate(lines[i].split(/[;\t]+/)[0]);
+
+        if (!prev || !curr) {
+            continue;
+        }
+
+        const diffMinutes =
+            (curr - prev) / 60000;
+
+        // Zulässig: 60 Minuten ±1 Minute
+        // sowie 59 bzw. 61 Minuten wegen Rundungen
+        const ok =
+            Math.abs(diffMinutes - 60) <= 1 ||
+            Math.abs(diffMinutes - 120) <= 1 ||
+            Math.abs(diffMinutes) <= 1;
+        
+        if (!ok)  {
+
+            pricingValidationError = true;
+
+            validationMessages.push(
+                `Ungültiger Zeitabstand zwischen Zeile ${i} und ${i + 1}: ${diffMinutes} Minuten. Erwartet werden ca. 60 Minuten.`
+            );
+
+            break;
+        }
+    }
+}
+        
+if (validationMessages.length > 0) {
+
+    showModal(
+        "Hinweis",
+        validationMessages.join("\n\n")
+    );
+}
+        
+        updatePricingButtonState();
+        
+        const unit =
+            document.querySelector(
+                'select[name="unit"]'
+            ).value;
+
+    // =========================
+    // FIX: GRANULARITÄTS-MAPPING
+    // =========================
+    
+    let topLabels = [];
+    let topData = [];
+    let topLabel = "";
+    
+    let bottomLabels = [];
+    let bottomData = [];
+    
+    // IMMER TAGESPROFIL IM TOP CHART
+    
+    const isVollversorgung =
+        document.querySelector('[name="selection_mode"]').value === "vollversorgung";
+    
+    topLabels = result.daily_timestamps;
+    topData = result.daily_values;
+    topLabel = "Tagesprofil";
+    
+    // APPLY TOP
+    topChart.data.labels = (
+        isVollversorgung
+            ? result.vollversorgung_daily_timestamps
+            : result.daily_timestamps
+    ).map(t => String(t));
+    
+    
+    topChart.data.datasets = [];
+    
+    if (isVollversorgung) {
+    
+        topChart.data.datasets.push({
+            label: `Vollversorgung`,
+            data: result.vollversorgung_daily_values.map(v => Number(v) || 0),
+            borderColor: '#2f80ed',
+            backgroundColor: 'rgba(47,128,237,0.10)',
+            tension: 0.3,
+            fill: false,
+            borderWidth: 2,
+            pointRadius: 0.1
+        });
+    
+        topChart.data.datasets.push({
+            //label: `Tagesprofil (${unit})`,
+            label: `Tagesprofil (MW)`,
+            data: result.daily_values.map(v => Number(v) || 0),
+                borderColor: '#d99a1f',
+                backgroundColor: 'rgba(217,154,31,0.15)',
+            tension: 0.3,
+            fill: true,
+            borderWidth: 1,
+            pointRadius: 0.1
+        });
+    
+    } else {
+        topChart.data.datasets.push({
+            //label: `Tagesprofil (${unit})`,
+            label: `Tagesprofil (MW)`,
+            data: result.daily_values.map(v => Number(v) || 0),
+                borderColor: '#d99a1f',
+                backgroundColor: 'rgba(217,154,31,0.15)',
+            tension: 0.3,
+            fill: true,
+            borderWidth: 1,
+            pointRadius: 0.1
+        });
+    
+    }
+    
+    topChart.update();
+    
+    // APPLY BOTTOM (IMMER MONATSSUMMEN 1:1)
+// 🔥 FIX: Monatsdaten im Frontend sauber deduplizieren + absichern
+    const monthMap = new Map();
+    
+    for (let i = 0; i < result.months.length; i++) {
+    
+        const key = String(result.months[i]); // 🔥 FIX STRING NORMALISIERUNG
+        const val = Number(result.monthly_values[i]) || 0;
+    
+        monthMap.set(key, (monthMap.get(key) || 0) + val);
+    }
+    
+    const safeMonthLabels = [...monthMap.keys()];
+    const safeMonthValues = [...monthMap.values()];
+    
+    bottomChart.data.labels = safeMonthLabels;
+    bottomChart.data.datasets[0].data = safeMonthValues;
+    // bottomChart.data.datasets[0].label = `Monatssumme (${unit})`;
+    bottomChart.data.datasets[0].label = `Monatsprofil (MW)`;
+    bottomChart.update();
+
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "Fehler beim Senden:",
+            error
+        );
+    });
+}
+
+uploadButton.addEventListener("click", async function () {
+    if (uploadInProgress) return;
+
+    setUploadLoading(true);
+
+    try {
+        await processLastgang();
+        await saveExcelAndNotify();
+
+        uploadCompleted = true;
+        lastgangLocked = true;
+
+    } catch (error) {
+        console.error(error);
+        alert("Falsche Eingabe: bitte prüfen\n\n" + error.message);
+
+    } finally {
+        setUploadLoading(false);
+    }
+});
+
+document
+.querySelector(
+    'input[name="forward_market_share"]'
+)
+.addEventListener(
+    "keydown",
+    function (e) {
+
+        if (e.key === "Enter") {
+
+            e.preventDefault();
+
+            processLastgang();
+        }
+    }
+);
+document.querySelector('select[name="years"]').addEventListener("change", function () {
+    invalidateUploadState();
+    processLastgang();
+});
+
+document.querySelector('select[name="unit"]').addEventListener("change", function () {
+    invalidateUploadState();
+    processLastgang();
+});
+
+document
+    .querySelector('select[name="selection_mode"]')
+    .addEventListener("change", function () {
+
+        invalidateUploadState();
+
+        processLastgang();
+    });
+            
+forwardInput.addEventListener(
+    "keydown",
+    async function (e) {
+
+        if (e.key === "Enter") {
+        
+            e.preventDefault();
+        
+            invalidateUploadState();
+        
+            console.log(
+                "Terminmarktanteil geändert"
+            );
+        
+            await processLastgang();
+        }
+    }
+);
+
+forwardInput.addEventListener(
+    "blur",
+    async function () {
+
+        invalidateUploadState();
+
+        console.log(
+            "Terminmarktanteil verlassen"
+        );
+
+        await processLastgang();
+    }
+);
+            
+async function saveExcelAndNotify() {
+    setUploadLoading(true);
+
+    try {
+        const response = await fetch("./save-excel", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                energy_type: "strom",
+                pricing_name: document.querySelector('input[name="pricing_name"]').value,
+                years: Array.from(document.querySelector('select[name="years"]').selectedOptions).map(o => o.value),
+                einheit: document.querySelector('select[name="unit"]').value,
+                forward_market_share: document.querySelector('input[name="forward_market_share"]').value,
+                selection_mode: document.querySelector('[name="selection_mode"]').value,
+                raw_input: document.querySelector('textarea[name="raw_input"]').value
+            })
+        });
+
+        const result = await response.json();
+
+        console.log("Excel gespeichert:", result);
+
+        return result;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+
+    } finally {
+        setUploadLoading(false);
+    }
+} 
+
+async function runPricingSimulation() {
+
+    const button =
+        document.getElementById(
+            "pricingButton"
+        );
+
+    button.disabled = true;
+
+    try {
+
+        await fetch(
+            "./pricing/start",
+            {
+                method: "POST"
+            }
+        );
+
+        let finished = false;
+
+        while (!finished) {
+
+            const response =
+                await fetch(
+                    "./pricing/status"
+                );
+
+            const status =
+                await response.json();
+
+            button.textContent =
+                status.message || "Pricing läuft";
+
+            if (status.error) {
+
+                throw new Error(
+                    status.error
+                );
+            }
+
+            if (status.completed) {
+
+                finished = true;
+                break;
+            }
+
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        1000
+                    )
+            );
+        }
+
+        const resultResponse =
+            await fetch(
+                "./pricing/result"
+            );
+
+        const resultData =
+            await resultResponse.json();
+
+        const result =
+            resultData.result;
+
+        document.getElementById(
+            "kpiPrice"
+        ).textContent =
+            result.price;
+
+        document.getElementById(
+            "kpiAmount"
+        ).textContent =
+            result.amount;
+
+        document.getElementById(
+            "kpiValidity"
+        ).textContent =
+            result.validity;
+
+        document.getElementById(
+            "kpiPSR"
+        ).textContent =
+            result.psr;
+
+        button.textContent =
+            "Abgeschlossen";
+
+        button.classList.remove(
+            "btn-primary"
+        );
+
+        button.classList.add(
+            "btn-success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        button.textContent =
+            "Fehler";
+
+        button.classList.remove(
+            "btn-primary"
+        );
+
+        button.classList.add(
+            "btn-danger"
+        );
+    }
+
+    button.disabled = false;
+}
+            
+const form = document.querySelector("form");
+
+form.addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+
+    if (!uploadCompleted || !lastgangLocked) {
+
+        alert(
+            "Bitte zuerst den Upload-Button betätigen."
+        );
+
+        return;
+    }
+
+    if (periodMismatch) {
+
+        showModal(
+            "Hinweis",
+            "Lieferzeitraum und Lastgangzeitraum stimmen nicht überein."
+        );
+
+        return;
+    }
+
+    await runPricingSimulation();
+});
+            
+        });
+
+    </script>
+
+</head>
+
+
+<body class="bg-light">
+
+    <a href="https://server/home.html" target="_blank" style="
+        position: fixed;
+        right: 43px;
+        top: 89.9%;
+        transform: translateY(-50%);
+        z-index: 9999;
+    ">
+    
+        <img src="https://i0.wp.com/stclairrealtors.com/wp-content/uploads/2024/05/gas-electric-stove-pros.webp?fit=2048%2C1365&ssl=1"
+             alt="Grafik"
+             style="height:31px; width:auto; object-fit:contain;">
+    
+    </a>
+
+    <!-- NAV -->
+    <nav id="mainNavbar" class="navbar navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="./">-Pricing</a>
+
+            <div class="d-flex gap-2 align-items-center">
+            
+                <a id="stromIcon"
+                   class="energy-icon"
+                   href="./strom">
+                   STROM
+                </a>
+            
+                <a id="gasIcon"
+                   class="energy-icon"
+                   href="./gas">
+                   GAS
+                </a>
+            
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="container-fluid-custom py-3">
+
+        <div class="row g-3 align-items-stretch">
+
+            <!-- LEFT: FORM -->
+            <div class="col-xl-6 col-lg-6 col-md-12">
+
+                <form method="POST" action="/run-script" class="p-5 bg-white border rounded shadow-sm h-100">
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">BEZEICHNUNG</label>
+
+                        <input
+                            type="text"
+                            class="form-control form-control-sm"
+                            placeholder="Name der Bepreisung"
+                            name="pricing_name"
+                            style="height:24px; font-size:0.83rem;"
+                            required>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+
+                        <div class="col-6">
+                            <label class="form-label small fw-bold">JAHRE</label>
+
+                            <select class="form-select form-select-sm" name="years" multiple size="5" required>
+                                <option>2026</option>
+                                <option>2027</option>
+                                <option>2028</option>
+                                <option>2029</option>
+                                <option>2030</option>
+                                <option>2031</option>
+                            </select>
+
+                            <small class="text-muted">
+                                Strg / Cmd für Mehrfachauswahl
+                            </small>
+
+                            
+                        </div>
+
+<div class="col-6">
+        <div class="mb-3">
+            <label class="form-label small fw-bold">EINHEIT</label>
+
+<div class="d-flex gap-2">
+
+    <select class="form-select form-select-sm" name="unit" required
+        style="height:26px; font-size:0.79rem; width:50%;">
+
+        <option>MW</option>
+        <option>kW</option>
+        <option>MWh</option>
+        <option>kWh</option>
+
+    </select>
+
+    <select class="form-select form-select-sm" name="unit2"
+        style="height:26px; font-size:0.79rem; width:50%;">
+
+        <option>RZ Amprion</option>
+        <option>Zertifikat 1</option>
+        <option>Zertifikat 2</option>
+
+    </select>
+
+</div>
+        </div>
+
+
+
+                    
+<!-- Terminmarktanteil + Selektionsmode -->
+<div class="row g-5">
+
+    <!-- Terminmarktanteil -->
+    <div class="col-6">
+        <label class="form-label small fw-bold">MARKTANTEIL</label>
+
+        <div class="input-group input-group-sm">
+            <input
+                type="number"
+                class="form-control"
+                name="forward_market_share"
+                required
+                value="100"
+                min="0"
+                max="100"
+                step="0.1"
+                style="height:24px; font-size:0.8rem;">
+
+            <span class="input-group-text py-0"
+                  style="height:24px; font-size:0.8rem;">
+                %
+            </span>
+        </div>
+    </div>
+
+    <!-- Selektionsmode -->
+    <div class="col-6">
+<div class="position-relative">
+
+
+    <button
+        type="button"
+        id="AUFSCHLÄGEButton"
+        class="btn soft2-gas-btn btn-sm position-absolute"
+        style="top:+131px; right:-1.1px;">
+        AUFSCHLÄGE
+    </button>
+
+    <button
+        type="button"
+        id="uploadButton"
+        class="btn gas-btn btn-sm position-absolute"
+        style="top:+181px; right:-1.1px;">
+        UPLOAD
+    </button>
+    
+    <button
+        type="button"
+        id="PFMButton"
+        class="btn soft1-gas-btn btn-sm position-absolute"
+        style="top:+231px; right:-1.1px;">
+        PFM
+    </button>
+
+</div>
+        <label class="form-label small fw-bold">PRODUKT</label>
+
+        <select
+            class="form-select form-select-sm"
+            name="selection_mode"
+            style="height:24px; font-size:0.7rem;">
+
+            <option value="fp_spot">FP</option>
+            <option value="vollversorgung">VV</option>
+
+        </select>
+    </div>
+
+
+</div>
+                    
+                    </div>
+
+                    </div>
+
+                    <div class="mb-4" style="margin-bottom:1.9rem !important;max-width: 284px">
+ 
+                        <label class="form-label small">
+    <strong>LASTGANG (Text / CSV / Excel)</strong>
+
+</label>
+                        <textarea
+                            class="form-control form-control-sm mb-3"
+                            name="raw_input"
+                            rows="4.5"
+                            style="font-family:'Helvetica Neue LT 35 Thin', 'Helvetica Neue', Arial, sans-serif; font-weight:500; color:#506D85, resize:vertical; font-size:0.85rem;"
+                            placeholder="Werte einfügen oder Datei hochladen"></textarea>
+
+                        <div class="d-flex gap-5 align-items-center">
+                        
+                            <div class="position-relative flex-grow-1">
+                        
+                                <input
+                                    type="file"
+                                    id="fileUpload"
+                                    class="form-control form-control-sm pe-5"
+                                    name="file_upload"
+                                    accept=".txt,.csv,.xlsx,.xls">
+                       
+                                <button
+                                    type="button"
+                                    id="clearFileButton"
+                                    class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2 py-0 px-3"
+                                    title="Datei entfernen">
+                        
+                                    ✕
+                        
+                                </button>
+
+
+                                
+                            </div>
+                        
+                        </div>
+
+                    </div>
+
+                    <div class="mb-4 p-4 bg-light border rounded">
+
+                        <label class="form-label small mb-4" style="font-size:0.95rem" id="summe_lastgang"> 
+                            SUMME LASTGANG
+                        </label>
+
+
+                        <div class="fw-bold" style="font-size:1.01rem" id="sumDisplay">0</div>
+
+                        <small class="text-muted" id="sumInfoText">
+                            wird berechnet nach Upload-Bestätigung
+                        </small>
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        id="pricingButton"
+                        class="btn btn-primary btn-sm w-100">
+                    
+                        BEPREISEN
+                    
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-xl-6 col-lg-6 col-md-12">
+
+                <div class="bg-white border rounded shadow-sm p-5 viz-box h-100">
+
+    
+
+
+<!-- VISUALISIERUNGSBEREICH -->
+<!--                <div style="height:300px;background:#f8f9fa;border:1px dashed #ccc"
+                        class="d-flex align-items-center justify-content-center text-muted mb-3">
+                        Visualisierung hier
+                    </div> 
+-->
+
+                    <!-- VISUALISIERUNGSBEREICH -->
+                    <div class="graph-wrapper mb-4">
+                    
+                        <!-- OBERER GRAPH -->
+                        <div class="graph-box mb-1">
+                            <canvas id="topChart"></canvas>
+                        </div>
+                    
+                        <!-- UNTERER GRAPH -->
+                        <div class="graph-box mb-1">
+                            <canvas id="bottomChart"></canvas>
+                        </div>
+                    
+                    </div>
+
+                    <div class="row justify-content-between row g-1">
+
+                        <div class="col-4">
+                            <div class="p-1 bg-light border rounded kpi-box text-center">
+                                <div class="kpi-title"> Transferpreis (€/MWh)</div>
+                                <div class="kpi-value" id="kpiPrice">0</div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="p-1 bg-light border rounded kpi-box text-center">
+                                <div class="kpi-title"> GESAMT (€)</div>
+                                <div class="kpi-value" id="kpiAmount">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-4">
+                            <div class="p-1 bg-light border rounded kpi-box text-center">
+                                <div class="kpi-title">GÜLTIGKEIT</div>
+                                <div class="kpi-value" id="kpiValidity">—</div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="p-1 bg-light border rounded kpi-box text-center">
+                                <div class="kpi-title">VV-AUFSCHLAG</div>
+                                <div class="kpi-value" id="kpiPSR">0</div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="p-1 bg-light border rounded kpi-box text-center">
+                                <div class="kpi-title">BF-AUFSCHLAG</div>
+                                <div class="kpi-value" id="kpiBFA">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-4">
+                            <div class="p-1 bg-light border rounded kpi-box text-center">
+                                <div class="kpi-title">ZERTIFIKAT-AUFSCH.</div>
+                                <div class="kpi-value" id="kpiZERT">0</div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <footer id="mainFooter"
+            class="text-white text-center py-2 small">
+            © 2026 E-Pricing App
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+<script>
+let topChart;
+let bottomChart;
+document.addEventListener("DOMContentLoaded", function () {
+
+    // =========================
+    // OBERER GRAPH (leer)
+    // =========================
+    const topCtx = document.getElementById('topChart');
+
+    topChart = new Chart(topCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Tagesprofil',
+                data: [],
+                borderColor: '#d99a1f',
+                backgroundColor: 'rgba(217,154,31,0.15)',
+                tension: 0.3,
+                fill: true,
+                borderWidth: 1,
+                pointRadius: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'end'
+                },
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x'
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'x'
+                    }
+                }
+            }
+        }
+    });
+
+    // =========================
+    // UNTERER GRAPH (leer)
+    // =========================
+    const bottomCtx = document.getElementById('bottomChart');
+
+    bottomChart = new Chart(bottomCtx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [{
+                label: `Monatsprofil`,
+                data: [],
+                backgroundColor: '#B89B2F'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'end'
+                },
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'x'
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'x'
+                    }
+                }
+            }
+        }
+    });
+
+});
+
+</script>
+    <script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const stromIcon =
+        document.getElementById("stromIcon");
+
+    const gasIcon =
+        document.getElementById("gasIcon");
+
+    const url =
+        window.location.href.toLowerCase();
+
+    if (url.includes("/gas")) {
+
+        gasIcon.classList.add("gas-active");
+        stromIcon.classList.add("inactive");
+
+    }
+    else if (url.includes("/strom")) {
+
+        stromIcon.classList.add("strom-active");
+        gasIcon.classList.add("inactive");
+
+    }
+    else {
+
+        stromIcon.classList.add("inactive");
+        gasIcon.classList.add("inactive");
+
+    }
+
+});
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const modal = document.getElementById("appModal");
+
+    if (!modal) {
+        console.log("appModal nicht gefunden");
+        return;
+    }
+
+    modal.addEventListener("hidden.bs.modal", () => {
+
+        document.body.classList.remove("modal-open");
+
+        document
+            .querySelectorAll(".modal-backdrop")
+            .forEach(el => el.remove());
+
+    });
+
+});
+</script>
+</body>
+<!-- INTERACTIVE MODAL -->
+<div class="modal fade" id="appModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="appModalTitle">Info</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="appModalBody">
+        ...
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+ </html>   
+

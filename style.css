@@ -1,0 +1,83 @@
+body {
+    background-color: #f4f6f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* sorgt dafür, dass der Hauptbereich wächst */
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* volle Höhe für Row */
+.row-equal {
+    flex: 1;
+    display: flex;
+}
+
+/* gleiche Höhe für beide Spalten */
+.equal-col {
+    display: flex;
+}
+
+/* Card Styling */
+.energy-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.energy-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.nav-link {
+    margin-left: 10px;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #0dcaf0 !important;
+}
+
+/* wichtig: rechte Visualisierung soll exakt Höhe füllen */
+.viz-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.graph-box {
+    height: 145px;
+    background: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px;
+}
+
